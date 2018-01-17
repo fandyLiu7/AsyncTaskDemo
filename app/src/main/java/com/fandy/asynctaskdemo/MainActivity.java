@@ -11,6 +11,9 @@ import android.widget.ProgressBar;
  * 不同的api版本AsyncTask具有不同的表现
  * AsyncTask并不适合执行特别耗时的人物操作.特别耗时的任务操作,建议使用线程池
  * 当前的AsyncTask也可以在子线程中创建,并且执行在子线程中
+ * 3.0版本之前是并行执行的
+ * 3.0版本之后是串行执行的
+ * 可以使用executeOnExecutor方法在3.0之后实现并行执行任务
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         mPb2 = (ProgressBar) findViewById(R.id.pb2);
 
 
-    /*    final DownLoadFileTask downLoadFileTask = new DownLoadFileTask(0);
-        new Thread(new Runnable() {
+        final DownLoadFileTask downLoadFileTask = new DownLoadFileTask(0);
+  /*      new Thread(new Runnable() {
             @Override
             public void run() {
                 downLoadFileTask.execute();
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 //        new DownLoadFileTask(0).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 //        new DownLoadFileTask(1).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 //        new DownLoadFileTask(2).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
 
         /**
          * 子线程中开启任务
@@ -81,7 +83,11 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("onPreExecute:" + Thread.currentThread().getName());
         }
 
-
+        /**
+         * 更新进度的方法
+         *
+         * @param values
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             switch (tag) {
@@ -101,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("onProgressUpdate:" + Thread.currentThread().getName());
         }
 
-
         /**
-         * 在线程池中执行的后天任务回调放大
+         * 在线程池中执行的后台任务回调方法
          *
          * @param params
          * @return
