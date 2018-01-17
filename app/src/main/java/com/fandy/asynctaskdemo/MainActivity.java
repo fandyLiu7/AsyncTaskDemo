@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
  * AsyncTask(抽象的泛型类)的源码学习
  * 不同的api版本AsyncTask具有不同的表现
  * AsyncTask并不适合执行特别耗时的人物操作.特别耗时的任务操作,建议使用线程池
+ * 当前的AsyncTask也可以在子线程中创建,并且执行在子线程中
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -144,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 normalDialog.setMessage("三个任务并行处理,监控所有的任务成功");
                 normalDialog.show();
             }
-
         }
     }
-
-
 }
